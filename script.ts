@@ -2,14 +2,13 @@ const canvas: HTMLCanvasElement = document.querySelector("canvas")
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d")
 
 const FPS_MAX: number = Infinity
-const GAME_TICKS: number = 100
+// number of movement checks per second (the higher the smoother, max 1000, might generate lags when there are a lot of elements in game)
+const GAME_TICKS: number = 200
 const CUBE_SIZE: number = 2
 const SCALE: number = 150
 const viewDistance: number = 12
 const color: string = "limegreen"
 const bgColor: string = "rgb(15,15,15)"
-// const bgColor: string = "lightblue"
-const aspectRatio: number = canvas.width / canvas.height
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -21,7 +20,7 @@ const cameraPos: position3d = {
     z: 0
 }
 
-const initCameraPos: position3d = Object.create(cameraPos)
+// const initCameraPos: position3d = Object.create(cameraPos)
 
 const KEYS = {
     moveLeft: "a",
@@ -84,8 +83,8 @@ const controls = (): void => {
 
     if (movementProps.rotateRight) cubes.forEach((cube: Cube) => cube.rotateFromCenter(1))
     if (movementProps.rotateLeft) cubes.forEach((cube: Cube) => cube.rotateFromCenter(-1))
-    if (movementProps.lookRight) cubes.forEach((cube: Cube) => cube.rotateFromPlayer(1))
-    if (movementProps.lookLeft) cubes.forEach((cube: Cube) => cube.rotateFromPlayer(-1))
+    if (movementProps.lookRight) cubes.forEach((cube: Cube) => cube.rotateFromPlayer(-1))
+    if (movementProps.lookLeft) cubes.forEach((cube: Cube) => cube.rotateFromPlayer(1))
 }
 
 type position3d = {
@@ -100,13 +99,6 @@ type position = {
 }
 
 const cubes: Cube[] = []
-
-// 1 -2.4
-// 0 -0.4
-// -1 1.6 2.6
-// -2 3.6 5.6
-// -3 5.6 8.6
-// -4 7.6 11.6
 
 const getDifference = (z: number): number => -2.4 + (z - 1) * -2
 
@@ -407,118 +399,74 @@ const getAnglePure = (pos: position, radius: number, center: position): number =
     return degrees
 }
 
-// for (let i = 0; i < 360; i += 10) {
-//     const radius = 10
-//     const pos = getCirclePoint(i, radius) 
-//     cubes.push(new Cube({ x: pos.x + cameraPos.x, y: cameraPos.y, z: (pos.y - 0) * 10 }, "red"))
-// }
-// cubes.push(new Cube({ x: cameraPos.x, y: cameraPos.y, z: cameraPos.z - 14 }, "orange"))
-
-// for (let i = 0; i < 360; i += 10) {
-//     const radius = 10
-//     const pos = getCirclePoint(i, radius) 
-//     cubes.push(new Cube({ x: pos.x + cameraPos.x, y: cameraPos.y, z: (pos.y + 4) * 10 }, "red"))
-// }
-
-// for (let i = 0; i < 360; i += 10) {
-//     const pos = getCirclePoint(i, 1) 
-//     cubes.push(new Cube({ x: pos.x + cameraPos.x, y: cameraPos.y, z: pos.y - cameraPos.z }, "red"))
-//     // console.log(pos)
-// }
-
-// cubes.push(new Cube({ x: 2, y: -0, z: -3 }, "limegreen"))
-// cubes.push(new Cube({ x: -2, y: -0, z: -3 }, "limegreen"))
-// cubes.push(new Cube({ x: 2, y: -1, z: -3 }, "red"))
-// cubes.push(new Cube({ x: -1, y: 3, z: -3 }, "limegreen"))
-// cubes.push(new Cube({ x: 7, y: 3, z: -3 }, "limegreen"))
-
-// cubes.push(new Cube({ x: 3, y: 3, z: -2.6 }, "orange"))
-// cubes.push(new Cube({ x: 3, y: 3, z: -3.6 }, "limegreen"))
-
-// cubes.push(new Cube({ x: 3, y: 2, z: -2 }, "cornflowerblue"))
-// cubes.push(new Cube({ x: 3, y: 2, z: -2.2 }, "orange"))
-
-const cubeX: number = -1
-
-// cubes.push(new Cube({ x: cubeX, y: -1, z: -3 }, "limegreen"))
-// // cubes.push(new Cube({ x: cubeX + 2, y: -1, z: -3 }, "orange"))
-
-// cubes.push(new Cube({ x: cubeX, y: -1, z: -3 }, "limegreen", 45))
-// cubes.push(new Cube({ x: cubeX, y: -1, z: -3 }, "limegreen", 22.5))
-// cubes.push(new Cube({ x: cubeX, y: -1, z: -3 }, "limegreen", 67.5))
-
-// cubes.push(new Cube({ x: 1, y: -1, z: -3 }, "limegreen"))
-// cubes.push(new Cube({ x: 1, y: -1, z: -3 }, "limegreen", 45))
-// cubes.push(new Cube({ x: 1, y: -1, z: -3 }, "limegreen", 22.5))
-// cubes.push(new Cube({ x: 1, y: -1, z: -3 }, "limegreen", 67.5))
-
-// cubes.push(new Cube({ x: 3, y: -1, z: -3 }, "limegreen"))
-// cubes.push(new Cube({ x: 3, y: -1, z: -3 }, "limegreen", 45))
-// cubes.push(new Cube({ x: 3, y: -1, z: -3 }, "limegreen", 22.5))
-// cubes.push(new Cube({ x: 3, y: -1, z: -2 }, "limegreen", 67.5))
-
-// cubes.push(new Cube({ x: cubeX, y: -1, z: -4 }, "brown"))
-// cubes.push(new Cube({ x: cubeX, y: 1, z: -4 }, "brown"))
-
-// cubes.push(new Cube({ x: cubeX, y: 3, z: -4 }, "limegreen"))
-
-// cubes.push(new Cube({ x: cubeX - 2, y: 3, z: -4 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX - 4, y: 3, z: -4 }, "limegreen"))
-
-// cubes.push(new Cube({ x: cubeX + 2, y: 3, z: -4 }, "limegreen"))
-
-// cubes.push(new Cube({ x: cubeX + 4, y: 3, z: -4 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX, y: 5, z: -4 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX, y: 7, z: -4 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX - 2, y: 5, z: -4 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX + 2, y: 5, z: -4 }, "limegreen"))
-
-// cubes.push(new Cube({ x: cubeX - 2, y: 3, z: -3.8 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX, y: 3, z: -3.8 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX + 2, y: 3, z: -3.8 }, "limegreen"))
-
-// cubes.push(new Cube({ x: cubeX - 2, y: 3, z: -4.2 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX, y: 3, z: -4.2 }, "limegreen"))
-// cubes.push(new Cube({ x: cubeX + 2, y: 3, z: -4.2 }, "limegreen"))
-
-// cubes.push(new Cube({ x: 1, y: -7, z: -5 }, "limegreen"))
-// cubes.push(new Cube({ x: 2, y: -7, z: -5 }, "limegreen"))
-
-// cubes.push(new Cube({ x: 1, y: -7, z: 40 }, "lightblue"))
-// cubes.push(new Cube({ x: 2, y: -7, z: 40 }, "lightblue"))
-
-// cubes.push(new Cube({ x: -16, y: -7, z: -5 }, "limegreen"))
-// cubes.push(new Cube({ x: -15, y: -7, z: -5 }, "limegreen"))
-// cubes.push(new Cube({ x: -16, y: -7, z: -6 }, "limegreen"))
-// cubes.push(new Cube({ x: 0, y: -4, z: 15 }, "limegreen"))
-
-const addCube = (x: number, y: number, z: number, color: string) => {
-    cubes.push(new Cube({ x, y, z }, color))
+const addCube = (x: number, y: number, z: number, color: string, rotation?: number) => {
+    cubes.push(new Cube({ x, y, z }, color, rotation || 0))
 }
 
-for (let y = 0; y < 10; y++) {
-    for (let x = 0; x < 20; x++) {
-        addCube(y - 5, -4, 10 + x, "limegreen")
+const addClassicTreeLeaves = (pos: position3d) => {
+    addCube(pos.x, pos.y, pos.z, "limegreen")
+    addCube(pos.x + 1, pos.y, pos.z, "limegreen")
+    addCube(pos.x + 2, pos.y, pos.z, "limegreen")
+    addCube(pos.x - 1, pos.y, pos.z, "limegreen")
+    addCube(pos.x - 2, pos.y, pos.z, "limegreen")
+
+    addCube(pos.x + 1, pos.y + 1, pos.z, "limegreen")
+    addCube(pos.x, pos.y + 1, pos.z, "limegreen")
+    addCube(pos.x - 1, pos.y + 1, pos.z, "limegreen")
+
+    addCube(pos.x, pos.y + 2, pos.z, "limegreen")
+
+    addCube(pos.x, pos.y + 1, pos.z + 1, "limegreen")
+    addCube(pos.x, pos.y + 1, pos.z - 1, "limegreen")
+
+    addCube(pos.x, pos.y, pos.z + 1, "limegreen")
+    addCube(pos.x, pos.y, pos.z - 1, "limegreen")
+    addCube(pos.x, pos.y, pos.z + 2, "limegreen")
+    addCube(pos.x, pos.y, pos.z - 2, "limegreen")
+
+    addCube(pos.x + 1, pos.y, pos.z - 1, "limegreen")
+    addCube(pos.x - 1, pos.y, pos.z - 1, "limegreen")
+    addCube(pos.x + 1, pos.y, pos.z + 1, "limegreen")
+    addCube(pos.x - 1, pos.y, pos.z + 1, "limegreen")
+}
+
+const generatePlatform = (pos: position3d, width: number, depth: number, color: string) => {
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < depth; y++) {
+            addCube(x + pos.x, pos.y, pos.z + y, color)
+        }
     }
 }
 
-addCube(0, -3, 15, "brown")
-addCube(0, -2, 15, "brown")
-addCube(0, -1, 15, "brown")
+const laodObjects = () => {
+    // grass field
+    generatePlatform({ x: -5, y: -4, z: 10 }, 10, 20, "limegreen")
 
-const cameraCube = new Cube(cameraPos, "cornflowerblue")
-cubes.push(cameraCube)
-console.log(cameraCube.center, cameraCube.pos)
+    // tree on grass
+    addCube(0, -3, 15, "brown")
+    addCube(0, -2, 15, "brown")
+    addCube(0, -1, 15, "brown")
+    addClassicTreeLeaves({ x: 0, y: 0, z: 15 })
 
-// cubes.push(new Cube({ x: 1, y: -7, z: -80 }, "limegreen"))
-// cubes.push(new Cube({ x: 6, y: -7, z: -80 }, "limegreen"))
+    // tree behind
+    addCube(-1, 0, -5, "brown")
+    addCube(-1, 1, -5, "brown")
+    addClassicTreeLeaves({ x: -1, y: 2, z: -5 })
 
-// for (let y = 0; y < 10; y++) {
-//     for (let x = 0; x < 20; x++) {
-//         cubes.push(new Cube({ x: x, y: -7, z: y }, "limegreen"))
-//     }
-// }
+    // sky circle
+    for (let i = 0; i < 360; i += 10) {
+        const radius = 7
+        const pos = getCirclePoint(i, radius)
+        const angle = getAngle({ x: pos.x, y: pos.y * 7 + 15 }, radius, { x: 0, y: 15 })
+        addCube(pos.x, 2, pos.y * 10 + 15, "yellow", angle + 45)
+    }
+    
+    // cube representing camera position
+    addCube(cameraPos.x, cameraPos.y, cameraPos.z, "cornflowerblue")
+}
 
+
+// fps logic
 let fpsCounter: number = 0
 let fps: number = 0
 
@@ -527,8 +475,7 @@ const fpsCounterReset = (): void => {
     fpsCounter = 0
 }
 
-// displaying text on the canvas
-
+// displaying fps
 const text = (): void => {
     ctx.textAlign = "left"
     ctx.font = "20px Comic Sans MS"
@@ -543,23 +490,19 @@ const physics = (): void => {
 const render = (): void => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     cubes.forEach((cube: Cube) => cube.draw())
-    // const cameraCube = new Cube(Object.create(cameraPos), "cornflowerblue")
-    // // cameraCube.center.z = cameraPos.z - 1
-    // cameraCube.draw()
     text()
-    // drawCircle(pos1, "orange")
-    // drawCircle(pos2, "lightblue")
     fpsCounter++
 }
 
-setInterval(fpsCounterReset, 1000)
+const startEngine = () => {
+    setInterval(fpsCounterReset, 1000)
 
-render()
-setInterval(render, 1000 / FPS_MAX)
+    render()
+    setInterval(render, 1000 / FPS_MAX)
 
-// setTimeout(() => {
-//     setInterval(render, 1000 / FPS_MAX)
-// }, 500)
+    physics()
+    setInterval(physics, 1000 / GAME_TICKS)
+    laodObjects()
+}
 
-physics()
-setInterval(physics, 1000 / GAME_TICKS)
+startEngine()
