@@ -2,8 +2,6 @@ This is a 3d rendering engine written in TypeScript which uses simple lines draw
 
 Still under development
 
-- HOW TO PLAY
-
 movement: (classic minecraft-like)
 - move left: A
 - move right: D
