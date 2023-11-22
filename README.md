@@ -10,8 +10,8 @@ movement: (classic minecraft-like)
 - move up: space
 - move down: shift
 
-- look left: c
-- look right: v
+- look left: C
+- look right: V
 
 additional features:
-- rotate all cubes left/right: e and r
+- rotate all cubes left/right: E/R
