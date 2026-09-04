@@ -45,13 +45,6 @@ decoupled from frame rate. Live FPS is drawn to the canvas.
 ground, a leaf-pattern function for trees, and a ring of cubes placed
 around the sky using the same polar helper.
 
-## What I'd change
-
-The render loop uses `setInterval` rather than `requestAnimationFrame`,
-so it doesn't sync to the display refresh. Rotation state also
-accumulates on the corner angles each frame, which drifts over long
-sessions. Both would be my first fixes.
-
 ## Controls
 
 WASD to move, space/shift for up and down, C/V to look, E/R to spin cubes.
