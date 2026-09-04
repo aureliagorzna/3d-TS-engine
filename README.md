@@ -45,6 +45,8 @@ decoupled from frame rate. Live FPS is drawn to the canvas.
 ground, a leaf-pattern function for trees, and a ring of cubes placed
 around the sky using the same polar helper.
 
+I wasn't interested in math before this project. Building it meant I needed trigonometry to work, so I spent weeks asking my math teacher questions before each lesson - the angle helpers in here came out of those conversations rather than from a library.
+
 ## Controls
 
 WASD to move, space/shift for up and down, C/V to look, E/R to spin cubes.
