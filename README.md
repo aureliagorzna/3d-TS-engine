@@ -45,7 +45,20 @@ decoupled from frame rate. Live FPS is drawn to the canvas.
 ground, a leaf-pattern function for trees, and a ring of cubes placed
 around the sky using the same polar helper.
 
-I wasn't interested in math before this project. Building it meant I needed trigonometry to work, so I spent weeks asking my math teacher questions before each lesson - the angle helpers in here came out of those conversations rather than from a library.
+---
+
+## Why the math is hand-written
+
+> I wasn't interested in math before this project. Most of it felt long
+> to learn and impossible to apply. Then I started building a 3D
+> renderer and hit trigonometry on every step - projection, rotation,
+> angles between points.
+>
+> So before each math lesson at school, I'd go to my teacher with
+> whatever I was stuck on that week. The quadrant-corrected angle
+> helper in here came out of those conversations rather than from a
+> library, which is why it derives angles from `asin` by hand instead
+> of calling `atan2`.
 
 ## Controls
 
