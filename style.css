@@ -8,4 +8,12 @@ body {
 
 canvas {
   background-color: black;
+  z-index: 1;
+}
+
+.button-debug {
+  position: absolute;
+  z-index: 2;
+  top: 30px;
+  left: 10px;
 }
