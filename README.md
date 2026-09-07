@@ -62,4 +62,4 @@ around the sky using the same polar helper.
 
 ## Controls
 
-WASD to move, space/shift for up and down, C/V to look, E/R to spin cubes.
+WASD to move, space/shift for up and down, use mouse to look around after clicking on the canvas.
